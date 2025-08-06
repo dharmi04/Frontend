@@ -24,7 +24,7 @@ const Freelancerprofile = () => {
   const fetchUserProfile = async () => {
     try {
       // We assume /api/users/me returns the user's doc
-      const res = await axios.get("http://localhost:5000/api/users/me", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserData(res.data);

@@ -28,7 +28,7 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users/profile", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/users/profile`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -45,7 +45,7 @@ const EditProfile = () => {
         
         // Set preview URL for existing profile picture
         if (response.data.profilePicture) {
-          setPreviewUrl(`http://localhost:5000/${response.data.profilePicture}`);
+          setPreviewUrl(`${import.meta.env.VITE_API_URL}/${response.data.profilePicture}`);
         }
         
         setLoading(false);
@@ -117,7 +117,7 @@ const EditProfile = () => {
       // Add portfolio projects
       submitData.append("portfolioProjects", JSON.stringify(formData.portfolioProjects));
 
-      const res = await axios.put("http://localhost:5000/api/users/profile", submitData, {
+      const res = await axios.put("https://skillsyncbackend-5ncm.onrender.com/api/users/profile", submitData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

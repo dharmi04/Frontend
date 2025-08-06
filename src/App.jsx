@@ -15,6 +15,8 @@ import DiscussionThread from "./Components/DiscussionThread"
 import UserProfile from "./Pages/UserProfile"
 import Tweet from "./Tweet/Tweet"
 import CreateTweet from "./Tweet/CreateTweet"
+import TweetsFeed from "./Tweet/TweetsFeed"
+import UserTweet from "./Tweet/UserTweet"
 function App() {
 
   return (
@@ -27,7 +29,12 @@ function App() {
           <Route path="/freelancer/projects" element={<Projects />} />
 
           {/* Dashboards */}
-        <Route path="/client/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={
+  <Suspense fallback={<Loading />}>
+    <Dashboard />
+  </Suspense>
+} />
+
         <Route path="/freelancer/dashboard" element={<FreeLancerDashboard />} />
         <Route path="/freelancer/profile" element={<FreeLancerprofile/>} />
         <Route path="/freelancer/my-profile" element={<FreelancerProfileSetup />} />
@@ -40,8 +47,10 @@ function App() {
 
         <Route path="/discussion/:projectId" element={<DiscussionThread />} />
         {/* <Route path="/client/:clientId" element={<ClientProfile/>} /> */}
-        <Route path="/tweet" element={<Tweet />} />
+        <Route path="/all-tweet" element={<TweetsFeed />} />
         <Route path="/create-tweet" element={<CreateTweet />} />
+        <Route path="/user-tweet/:username" element={<UserTweet />} />
+
         </Routes>
       </Router>
     </>

@@ -46,17 +46,20 @@ const Login = () => {
     
     if (validateForm()) {
       try {
-        const { data } = await axios.post("http://localhost:5000/api/users/login", {
-          email,
-          password,
-        });
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}/users/login`,
+          {
+            email,
+            password,
+          }
+        );
 
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         alert("Login successful!");
 
         if (data.user.role === "freelancer") {
-          navigate(data.user.profilePicture ? "/freelancer/dashboard" : "/freelancer/setup-profile");
+          navigate("/freelancer/dashboard");
         } else if (data.user.role === "client") {
           navigate("/client/dashboard");
         } else {

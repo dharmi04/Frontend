@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { FaHeart, FaComment, FaEllipsisH } from "react-icons/fa";
 
 const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
   const [isLiked, setIsLiked] = useState(
@@ -13,11 +14,13 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
   const [editContent, setEditContent] = useState(tweet.content);
   
   const token = localStorage.getItem("token");
+
+ 
   
   const handleLike = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/tweets/${tweet._id}/like`,
+        `${import.meta.env.VITE_API_URL}/tweets/like/${tweet._id}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -32,13 +35,15 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
     }
   };
   
+
+  
   const handleComment = async (e) => {
     e.preventDefault();
     if (!commentText.trim()) return;
     
     try {
       await axios.post(
-        `http://localhost:5000/api/tweets/${tweet._id}/comment`,
+        `${import.meta.env.VITE_API_URL}/tweets/${tweet._id}/comment`,
         { content: commentText },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -46,7 +51,7 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
       );
       
       // Refresh tweet to show new comment
-      const updatedTweet = await axios.get(`http://localhost:5000/api/tweets/${tweet._id}`);
+      const updatedTweet = await axios.get(`${import.meta.env.VITE_API_URL}/tweets/${tweet._id}`);
       onTweetUpdated(updatedTweet.data);
       
       setCommentText("");
@@ -58,7 +63,7 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this tweet?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/tweets/${tweet._id}`, {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/tweets/${tweet._id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -72,7 +77,7 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/tweets/${tweet._id}`,
+        `${import.meta.env.VITE_API_URL}/tweets/${tweet._id}`,
         { content: editContent },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -96,7 +101,7 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
       {/* Tweet Header */}
       <div className="flex items-center mb-3">
         <Link to={`/profile/${tweet.userId._id}`} className="flex items-center">
-          <div className="w-10 h-10 rounded-full overflow-hidden mr-3">
+          {/* <div className="w-10 h-10 rounded-full overflow-hidden mr-3">
             {tweet.userId.profilePicture ? (
               <img 
                 src={`http://localhost:5000/${tweet.userId.profilePicture}`} 
@@ -110,7 +115,7 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
                 </svg>
               </div>
             )}
-          </div>
+          </div> */}
           <div>
             <h3 className="font-medium text-gray-800">{tweet.userId.name}</h3>
             <p className="text-xs text-gray-500">{formatDate(tweet.createdAt)}</p>
@@ -176,7 +181,7 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
       {tweet.media && (
         <div className="mb-3 rounded-lg overflow-hidden">
           <img 
-            src={`http://localhost:5000/${tweet.media}`} 
+            src={`${import.meta.env.VITE_API_BASE_URL}/${tweet.media}`} 
             alt="Tweet media" 
             className="w-full object-cover"
           />
@@ -196,16 +201,10 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
       
       {/* Tweet Actions */}
       <div className="flex items-center justify-between text-gray-500 border-t border-gray-100 pt-3">
-        <button 
-          onClick={handleLike}
-          className={`flex items-center ${isLiked ? 'text-blue-600' : 'hover:text-blue-600'}`}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill={isLiked ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isLiked ? 0 : 2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
-          <span>{likesCount}</span>
+      <button onClick={handleLike} className="flex items-center">
+          <FaHeart className={isLiked ? "text-red-500" : "text-gray-500"} />
+          <span className="ml-1">{likesCount}</span>
         </button>
-        
         <button 
           onClick={() => setShowComments(!showComments)}
           className="flex items-center hover:text-blue-600"
@@ -251,7 +250,7 @@ const Tweet = ({ tweet, currentUser, onTweetDeleted, onTweetUpdated }) => {
                   <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
                     {comment.userId.profilePicture ? (
                       <img 
-                        src={`http://localhost:5000/${comment.userId.profilePicture}`} 
+                        src={`${import.meta.env.VITE_API_BASE_URL}/${comment.userId.profilePicture}`} 
                         alt={`${comment.userId.name}'s profile`} 
                         className="w-full h-full object-cover"
                       />

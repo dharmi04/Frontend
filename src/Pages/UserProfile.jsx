@@ -22,14 +22,14 @@ const UserProfile = () => {
 
         if (isOwnProfile) {
           // Fetch current user profile with auth token
-          response = await axios.get("http://localhost:5000/api/users/profile", {
+          response = await axios.get(`${import.meta.env.VITE_API_URL}/users/profile`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
           });
         } else {
           // Fetch public profile by ID
-          response = await axios.get(`http://localhost:5000/api/users/profile/${profileId}`);
+          response = await axios.get(`${import.meta.env.VITE_API_URL}/users/profile/${profileId}`);
         }
 
         setUser(response.data);

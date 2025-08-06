@@ -28,7 +28,7 @@ const FreelancerProjectDetails = () => {
   const fetchProject = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/projects/${projectId}`,
+        `${import.meta.env.VITE_API_URL}/projects/${projectId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log("Fetched project:", res.data);
@@ -73,7 +73,7 @@ const FreelancerProjectDetails = () => {
       formData.append("answers", JSON.stringify(formattedAnswers));
 
       await axios.post(
-        `http://localhost:5000/api/projects/${projectId}/apply`,
+        `${import.meta.env.VITE_API_URL}/projects/${projectId}/apply`,
         formData,
         {
           headers: {
@@ -124,7 +124,7 @@ const FreelancerProjectDetails = () => {
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             {project.imageUrl && (
               <img
-                src={`http://localhost:5000/${project.imageUrl}`}
+                src={`${import.meta.env.VITE_API_BASE_URL}/${project.imageUrl}`}
                 alt="Project"
                 className="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
               />

@@ -197,7 +197,7 @@ const Projects = () => {
                 {/* Project Image */}
                 {project.imageUrl && (
                   <img
-                    src={`http://localhost:5000/${project.imageUrl}`}
+                    src={`${import.meta.env.VITE_API_BASE_URL}/${project.imageUrl}`}
                     alt="Project"
                     className="w-full h-52 object-cover"
                   />

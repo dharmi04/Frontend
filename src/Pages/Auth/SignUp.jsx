@@ -56,7 +56,7 @@ const SignUp = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await axios.post("http://localhost:5000/api/users/register", formData);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/register`, formData);
         alert(response.data.message);
         navigate("/login");
       } catch (error) {

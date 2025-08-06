@@ -80,7 +80,7 @@ const FreeLancerNavBar = () => {
             {user?.profilePicture ? (
               <div className="relative">
                 <img
-                  src={`http://localhost:5000/${user.profilePicture}`}
+                  src={`${import.meta.env.VITE_API_BASE_URL}/${user.profilePicture}`}
                   alt="Profile"
                   className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 hover:border-blue-500 transition-all cursor-pointer"
                 />

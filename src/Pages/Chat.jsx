@@ -13,7 +13,7 @@ const Chat = () => {
 
   useEffect(() => {
     // Connect to Socket.io server
-    const s = io("http://localhost:5000"); // your backend URL
+    const s = io(`${import.meta.env.VITE_API_URL}`); // your backend URL
     setSocket(s);
 
     // Join the specified room
