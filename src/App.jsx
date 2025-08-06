@@ -29,12 +29,7 @@ function App() {
           <Route path="/freelancer/projects" element={<Projects />} />
 
           {/* Dashboards */}
-          <Route path="/dashboard" element={
-  <Suspense fallback={<Loading />}>
-    <Dashboard />
-  </Suspense>
-} />
-
+        <Route path="/client/dashboard" element={<Dashboard />} />
         <Route path="/freelancer/dashboard" element={<FreeLancerDashboard />} />
         <Route path="/freelancer/profile" element={<FreeLancerprofile/>} />
         <Route path="/freelancer/my-profile" element={<FreelancerProfileSetup />} />
